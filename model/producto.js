@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
 mongoose.set('useFindAndModify', false);
 
 var ProductoSchema = Schema({
-    name: String,
-    code: String,
+    nombre: String,
+    codigo: String,
     precio: Number,
     descripcion: String,
     categoria: String

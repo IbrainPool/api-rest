@@ -20,4 +20,4 @@ mongoose.connect('mongodb://localhost:27017/productos', { useNewUrlParser: true 
         console.error('Error de conexion.');
         console.error(err);
     });
-
+ 

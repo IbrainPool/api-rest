@@ -7,6 +7,7 @@ var app = express();
 
 //carga de las rutas
 var productoRouter = require('./router/producto');
+var usuarioRouter =  require('./router/usuario');
 
 app.use(bodyParse.urlencoded({ extended: false}));
 app.use(bodyParse.json());
@@ -20,6 +21,7 @@ app.use((req, resp, next) => {
 });
 
 app.use('/api/producto', productoRouter);
+app.use('/api/usuario', usuarioRouter);
 
 module.exports = app;
 
