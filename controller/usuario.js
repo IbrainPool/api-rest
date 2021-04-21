@@ -3,6 +3,8 @@
 var UsuarioSchema =  require('../model/usuario');
 var bcrypt = require('bcrypt-nodejs');
 
+var token = require('../service/token');
+
 function save(req, res) {
 
     var usuario = new UsuarioSchema();
@@ -77,7 +79,6 @@ function save(req, res) {
 function login(req, res) {
 
     var params = req.body;
-
     var correo = params.correo.toLowerCase();
     var clave = params.clave;
 
@@ -94,9 +95,16 @@ function login(req, res) {
                 bcrypt.compare(clave, existeUsuario.clave, (err, check) => {
                     if(check) {
                         existeUsuario.clave = undefined;
-                        res.status(200).send({
-                            'usuario': existeUsuario
-                        });
+                        if(params.gettoken) {
+                            res.status(200).send({
+                                'token': token.createToken(existeUsuario)
+                            });
+                        } else {
+                            res.status(200).send({
+                                'usuario': existeUsuario
+                            });
+                        }
+                      
                     } else {
                         res.status(404).send({
                             message: 'Datos Incorrectos, comprobar correo/clave.'

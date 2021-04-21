@@ -6,6 +6,9 @@ var productoController = require('../controller/producto');
 
 var api = express.Router();
 
-api.post('/registro', productoController.save);
+var md_auth =  require('../middlewares/authenticated');
+
+api.post('/registro', [md_auth.ensureAuth], productoController.save);
+api.get('/todos', [md_auth.ensureAuth], productoController.getProducto);
 
 module.exports =  api;
