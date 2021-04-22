@@ -89,16 +89,16 @@ function updateProductos(req, res) {
 
     var productoid = req.params.id;
     var productoUpdate = req.body;
-
-    console.log(productoUpdate, productoid);
-    ProductoModel.findByIdAndUpdate( productoid, productoUpdate, {upsert: true}, 
-        function(err, updateProducto) {
+    productoUpdate._id = productoid;
+    console.log(productoUpdate);
+   ProductoModel.findByIdAndUpdate( productoid, productoUpdate, {new: true},
+        (err, updateProducto) => {
         if(err) {
             res.status(500).send({
                 message: 'Error en el servidor'
             });
         } else {
-            console.log('actualizacion', updateProducto);
+            console.log( updateProducto);
             if(updateProducto) {
                 res.status(200).send({
                     'producto': updateProducto
