@@ -9,6 +9,9 @@ var api = express.Router();
 var md_auth =  require('../middlewares/authenticated');
 
 api.post('/registro', [md_auth.ensureAuth], productoController.save);
-api.get('/todos', [md_auth.ensureAuth], productoController.getProducto);
+api.get('/todos', [md_auth.ensureAuth], productoController.getProductos);
+api.get('/:id', [md_auth.ensureAuth], productoController.getProducto);
+api.put('/:id', [md_auth.ensureAuth], productoController.updateProductos);
+api.delete('/:id', [md_auth.ensureAuth], productoController.removeProducto);
 
 module.exports =  api;

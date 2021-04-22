@@ -37,7 +37,7 @@ function save(req, res) {
 }
 
 
-function getProducto(req, res) {
+function getProductos(req, res) {
     ProductoModel.find({}).exec((err, productos) => {
         if(err) {
             res.status(500).send({
@@ -59,7 +59,88 @@ function getProducto(req, res) {
     });
 }
 
+
+
+function getProducto(req, res) {
+
+    var productoId = req.params.id;
+    ProductoModel.findById(productoId).exec((err, producto) => {
+        if(err) {
+            res.status(500).send({
+                message: 'Error de conexion'
+            });
+        } else {
+            if(producto) {
+                res.status(200).send(
+                    {
+                        'producto': producto
+                    }
+                );
+            } else {
+                res.status(404).send({
+                    message: 'No hay registros.'
+                });
+            }
+        }
+    });
+}
+
+function updateProductos(req, res) {
+
+    var productoid = req.params.id;
+    var productoUpdate = req.body;
+
+    console.log(productoUpdate, productoid);
+    ProductoModel.findByIdAndUpdate( productoid, productoUpdate, {upsert: true}, 
+        function(err, updateProducto) {
+        if(err) {
+            res.status(500).send({
+                message: 'Error en el servidor'
+            });
+        } else {
+            console.log('actualizacion', updateProducto);
+            if(updateProducto) {
+                res.status(200).send({
+                    'producto': updateProducto
+                });
+            } else {
+                res.status(404).send({
+                    message: 'Registro actualizado'
+                });
+            }
+        }
+    });
+}
+
+
+function removeProducto(req, res) {
+
+    var productoid = req.params.id;
+
+    ProductoModel.findByIdAndRemove(productoid,
+        (err, updateProducto) => {
+        if(err) {
+            res.status(500).send({
+                message: 'Error en el servidor'
+            });
+        } else {
+            console.log('actualizacion', updateProducto);
+            if(updateProducto) {
+                res.status(200).send({
+                    'producto': updateProducto
+                });
+            } else {
+                res.status(404).send({
+                    message: 'Registro no eliminado'
+                });
+            }
+        }
+    });
+}
 module.exports = {
     save,
-    getProducto
+    getProductos,
+    getProducto,
+    updateProductos,
+    removeProducto
 }
