@@ -13,7 +13,7 @@ exports.ensureAuth =  function (req, res, next) {
     }
 
     var token = req.headers.authorization.replace(/['"]+/g, '');
-
+    
     try {
 
         var payload = jwt.decode(token, secret);
@@ -31,5 +31,18 @@ exports.ensureAuth =  function (req, res, next) {
     }
 
     req.user = payload;
+    next();
+};
+
+
+
+exports.ensureAuthAdmin = function(req, res, next) {
+    console.log(req.user.role);
+    if(req.user.role != 'ROLE_ADMIN') {
+        return res.status(403).send({
+            message:'No tiene permisos para realizar esta operacion.'
+        });
+    }
+
     next();
 };

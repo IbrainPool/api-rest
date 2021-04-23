@@ -122,7 +122,37 @@ function login(req, res) {
 
 }
 
+function update(req, res) {
+
+    var usuarioId = req.params.id;
+    var update = req.body;
+    delete update.clave;
+
+
+    UsuarioSchema.findByIdAndUpdate(usuarioId, update, {new: true}, (err, updateUsuario) => {
+        if(err) {
+            res.status(500).send({
+                message: 'Error de conexion'
+            });
+        } else {
+            if(updateUsuario) {
+                updateUsuario.clave = undefined;
+                res.status(200).send({
+                    message: 'Registro actualizado',
+                    'usuario': updateUsuario
+                });
+            } else {
+                res.status(404).send({
+                    message: ' Registro no actualizado'
+                });
+            }
+        }
+    });
+
+}
+
 module.exports = {
     save,
-    login
+    login, 
+    update
 }
