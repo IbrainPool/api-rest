@@ -24,4 +24,3 @@ app.use('/api/producto', productoRouter);
 app.use('/api/usuario', usuarioRouter);
 
 module.exports = app;
-
