@@ -5,7 +5,7 @@ var bodyParse =  require('body-parser');
 
 var app = express();
 
-//carga de las rutas
+//carga de las rutas dinamicas
 var productoRouter = require('./router/producto');
 var usuarioRouter =  require('./router/usuario');
 
